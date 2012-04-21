@@ -129,6 +129,7 @@
 		232A420715433D9400B93679 /* ball-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420515433D9400B93679 /* ball-hd.png */; };
 		232A420815433D9400B93679 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420615433D9400B93679 /* ball.png */; };
 		232A420C15433DE800B93679 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A420B15433DE800B93679 /* Ball.m */; };
+		232A4210154345C300B93679 /* CCNode+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A420F154345C300B93679 /* CCNode+Frame.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -375,6 +376,8 @@
 		232A420615433D9400B93679 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = Resources/ball.png; sourceTree = "<group>"; };
 		232A420A15433DE800B93679 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ball.h; path = Models/Ball.h; sourceTree = "<group>"; };
 		232A420B15433DE800B93679 /* Ball.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Ball.m; path = Models/Ball.m; sourceTree = "<group>"; };
+		232A420E154345C300B93679 /* CCNode+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CCNode+Frame.h"; path = "Categories/CCNode+Frame.h"; sourceTree = "<group>"; };
+		232A420F154345C300B93679 /* CCNode+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CCNode+Frame.m"; path = "Categories/CCNode+Frame.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,6 +434,7 @@
 		232A402615432C5600B93679 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				232A420D1543459900B93679 /* Categories */,
 				232A420915433DC000B93679 /* Models */,
 				232A417815432C5800B93679 /* AppDelegate.h */,
 				232A417915432C5800B93679 /* AppDelegate.m */,
@@ -789,6 +793,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		232A420D1543459900B93679 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				232A420E154345C300B93679 /* CCNode+Frame.h */,
+				232A420F154345C300B93679 /* CCNode+Frame.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -964,6 +977,7 @@
 				232A417D15432C5800B93679 /* RootViewController.m in Sources */,
 				232A418015432C5800B93679 /* HelloWorldLayer.m in Sources */,
 				232A420C15433DE800B93679 /* Ball.m in Sources */,
+				232A4210154345C300B93679 /* CCNode+Frame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
