@@ -122,6 +122,10 @@
 		232A417A15432C5800B93679 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A417915432C5800B93679 /* AppDelegate.m */; };
 		232A417D15432C5800B93679 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A417C15432C5800B93679 /* RootViewController.m */; };
 		232A418015432C5800B93679 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A417F15432C5800B93679 /* HelloWorldLayer.m */; };
+		232A418B154333EF00B93679 /* paddle1-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A4187154333EF00B93679 /* paddle1-hd.png */; };
+		232A418C154333EF00B93679 /* paddle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A4188154333EF00B93679 /* paddle1.png */; };
+		232A418D154333EF00B93679 /* paddle2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A4189154333EF00B93679 /* paddle2-hd.png */; };
+		232A418E154333EF00B93679 /* paddle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A418A154333EF00B93679 /* paddle2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -360,6 +364,10 @@
 		232A417E15432C5800B93679 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
 		232A417F15432C5800B93679 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		232A418115432C5800B93679 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		232A4187154333EF00B93679 /* paddle1-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "paddle1-hd.png"; path = "Resources/paddle1-hd.png"; sourceTree = "<group>"; };
+		232A4188154333EF00B93679 /* paddle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle1.png; path = Resources/paddle1.png; sourceTree = "<group>"; };
+		232A4189154333EF00B93679 /* paddle2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "paddle2-hd.png"; path = "Resources/paddle2-hd.png"; sourceTree = "<group>"; };
+		232A418A154333EF00B93679 /* paddle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle2.png; path = Resources/paddle2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -433,6 +441,10 @@
 		232A402715432C5600B93679 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				232A4187154333EF00B93679 /* paddle1-hd.png */,
+				232A4188154333EF00B93679 /* paddle1.png */,
+				232A4189154333EF00B93679 /* paddle2-hd.png */,
+				232A418A154333EF00B93679 /* paddle2.png */,
 				232A402815432C5600B93679 /* Default.png */,
 				232A402A15432C5600B93679 /* fps_images.png */,
 				232A402C15432C5600B93679 /* Icon-72.png */,
@@ -818,6 +830,10 @@
 				232A403515432C5600B93679 /* Icon.png in Resources */,
 				232A403715432C5600B93679 /* Icon@2x.png in Resources */,
 				232A403A15432C5600B93679 /* iTunesArtwork in Resources */,
+				232A418B154333EF00B93679 /* paddle1-hd.png in Resources */,
+				232A418C154333EF00B93679 /* paddle1.png in Resources */,
+				232A418D154333EF00B93679 /* paddle2-hd.png in Resources */,
+				232A418E154333EF00B93679 /* paddle2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

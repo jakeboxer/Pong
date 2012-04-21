@@ -17,4 +17,7 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *)scene;
 
+@property (nonatomic, retain) CCSprite *paddle1;
+@property (nonatomic, retain) CCSprite *paddle2;
+
 @end
