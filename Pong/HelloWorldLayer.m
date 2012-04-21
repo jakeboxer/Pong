@@ -22,22 +22,20 @@
 @implementation HelloWorldLayer
 
 @synthesize ball;
+@synthesize endLabel;
 @synthesize paddle1;
 @synthesize paddle2;
+@synthesize winningPlayerNumber;
 
 #pragma mark - Creation/removal methods
 
 + (CCScene *)scene {
-	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
-
-	// 'layer' is an autorelease object.
 	HelloWorldLayer *layer = [HelloWorldLayer node];
 
 	// add layer as a child to scene
 	[scene addChild:layer];
 
-	// return the scene
 	return scene;
 }
 
@@ -69,6 +67,7 @@
 
 - (void)dealloc {
   [ball release];
+  [endLabel release];
   [paddle1 release];
   [paddle2 release];
 
@@ -104,10 +103,19 @@
 }
 
 - (void)checkEndConditions:(ccTime)dt {
-  if (self.ball.sprite.rightX >= self.rightX) {
-    // Player 2 loses.
-  } else if (self.ball.sprite.leftX <= self.leftX) {
-    // Player 1 loses.
+  if (self.ball.sprite.rightX >= self.contentSize.width) {
+    self.winningPlayerNumber = 1;
+  } else if (self.ball.sprite.leftX <= 0) {
+    self.winningPlayerNumber = 2;
+  }
+
+  if (self.winningPlayerNumber > 0) {
+    self.endLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Player %d wins!", self.winningPlayerNumber]
+                                       fontName:@"Helvetica"
+                                       fontSize:24.0f];
+    self.endLabel.position = self.center;
+    [self addChild:self.endLabel];
+    [self unscheduleUpdate];
   }
 }
 

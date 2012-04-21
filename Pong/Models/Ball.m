@@ -20,7 +20,7 @@
   
   if (nil != self) {
     self.sprite = [CCSprite spriteWithFile:@"ball.png"];
-    self.velocity = ccp(-80.0f, 40.0f);
+    self.velocity = ccp(-160.0f, 80.0f);
   }
 
   return self;
