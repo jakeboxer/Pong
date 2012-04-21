@@ -785,7 +785,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = GitHub;
+				ORGANIZATIONNAME = "Jake Boxer";
 			};
 			buildConfigurationList = 232A400C15432C5600B93679 /* Build configuration list for PBXProject "Pong" */;
 			compatibilityVersion = "Xcode 3.2";
