@@ -7,6 +7,7 @@
 //
 
 #import "CCNode+Frame.h"
+#import "cocos2d.h"
 
 @implementation CCNode (Frame)
 
@@ -16,6 +17,10 @@
 
 - (CGFloat)halfHeight {
   return self.contentSize.height * 0.5f;
+}
+
+- (CGPoint)center {
+  return ccp(self.halfWidth, self.halfHeight);
 }
 
 - (CGFloat)leftX {

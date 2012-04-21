@@ -18,5 +18,6 @@
 
 @property (nonatomic, readonly) CGFloat halfWidth;
 @property (nonatomic, readonly) CGFloat halfHeight;
+@property (nonatomic, readonly) CGPoint center;
 
 @end
