@@ -13,7 +13,8 @@
 
 enum GameState {
   GameStatePlaying,
-  GameStateEnd
+  GameStateEnd,
+  GameStateNone
 };
 typedef enum GameState GameState;
 
@@ -24,10 +25,14 @@ typedef enum GameState GameState;
 @property (nonatomic, retain) CCSprite *paddle2;
 @property (nonatomic, retain) CCLabelTTF *endLabel;
 @property (nonatomic, assign) GameState gameState;
+@property (nonatomic, assign) GameState gameStateWhereTouchBegan;
 @property (nonatomic, assign) NSInteger winningPlayerNumber;
 
+- (void)endGame;
+- (void)startGame;
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position;
 - (void)checkEndConditions:(ccTime)dt;
+- (void)resetGameState;
 - (void)updateGameObjects:(ccTime)dt;
 
 @end
@@ -37,6 +42,7 @@ typedef enum GameState GameState;
 @synthesize ball;
 @synthesize endLabel;
 @synthesize gameState;
+@synthesize gameStateWhereTouchBegan;
 @synthesize paddle1;
 @synthesize paddle2;
 @synthesize winningPlayerNumber;
@@ -60,19 +66,18 @@ typedef enum GameState GameState;
   // Apple recommends to re-assign "self" with the "super" return value
   if(nil != self) {
     self.ball = [[[Ball alloc] init] autorelease];
-    self.ball.sprite.position = self.center;
     [self addChild:self.ball.sprite];
 
     self.paddle1 = [CCSprite spriteWithFile:@"paddle1.png"];
-    self.paddle1.position = ccp(self.paddle1.halfWidth + 16.0f, self.halfHeight);
     [self addChild:self.paddle1];
 
     self.paddle2 = [CCSprite spriteWithFile:@"paddle2.png"];
-    self.paddle2.position = ccp(self.contentSize.width - self.paddle2.halfWidth - 16.0f, self.halfHeight);
     [self addChild:self.paddle2];
 
-    self.gameState = GameStatePlaying;
+    [self resetGameState];
+
     self.isTouchEnabled = YES;
+    self.gameState = GameStatePlaying;
 
     [self scheduleUpdate];
   }
@@ -130,21 +135,22 @@ typedef enum GameState GameState;
                                        fontSize:24.0f];
     self.endLabel.position = self.center;
     [self addChild:self.endLabel];
-    [self unscheduleUpdate];
-    self.gameState = GameStateEnd;
+
+    [self endGame];
   }
 }
 
 #pragma mark - Touch methods
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  self.gameStateWhereTouchBegan = self.gameState;
   CGPoint position = [self convertTouchToNodeSpace:touch];
 
   switch (self.gameState) {
     case GameStatePlaying:
       [self movePaddleSprite:self.paddle1 toPosition:position];
       break;
-    case GameStateEnd:
+    default:
       break;
   }
 
@@ -158,13 +164,26 @@ typedef enum GameState GameState;
     case GameStatePlaying:
       [self movePaddleSprite:self.paddle1 toPosition:position];
       break;
-    case GameStateEnd:
+    default:
       break;
   }
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  // Do nothing.
+  switch (self.gameState) {
+    case GameStateEnd:
+      if (GameStateEnd == self.gameStateWhereTouchBegan) {
+        [self.endLabel removeFromParentAndCleanup:YES];
+        self.endLabel = nil;
+
+        [self resetGameState];
+        [self startGame];
+      }
+
+      break;
+    default:
+      break;
+  }
 }
 
 - (void)registerWithTouchDispatcher {
@@ -172,6 +191,29 @@ typedef enum GameState GameState;
   [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self
                                                    priority:0
                                             swallowsTouches:YES];
+}
+
+#pragma mark - Game state methods
+
+- (void)endGame {
+  self.gameState = GameStateEnd;
+  [[CCDirector sharedDirector] pause];
+}
+
+- (void)startGame {
+  self.gameState = GameStatePlaying;
+  [[CCDirector sharedDirector] resume];
+}
+
+- (void)resetGameState {
+  // No one has won yet
+  self.winningPlayerNumber = 0;
+
+  self.ball.sprite.position = self.center;
+  self.ball.velocity = ccp(-160.0f, 80.0f);
+
+  self.paddle1.position = ccp(self.paddle1.halfWidth + 16.0f, self.halfHeight);
+  self.paddle2.position = ccp(self.contentSize.width - self.paddle2.halfWidth - 16.0f, self.halfHeight);
 }
 
 #pragma mark - Sprite logic methods
