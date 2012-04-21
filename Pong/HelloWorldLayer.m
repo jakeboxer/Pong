@@ -11,7 +11,20 @@
 #import "CCTouchDispatcher.h"
 #import "CCNode+Frame.h"
 
+enum GameState {
+  GameStatePlaying,
+  GameStateEnd
+};
+typedef enum GameState GameState;
+
 @interface HelloWorldLayer ()
+
+@property (nonatomic, retain) Ball *ball;
+@property (nonatomic, retain) CCSprite *paddle1;
+@property (nonatomic, retain) CCSprite *paddle2;
+@property (nonatomic, retain) CCLabelTTF *endLabel;
+@property (nonatomic, assign) GameState gameState;
+@property (nonatomic, assign) NSInteger winningPlayerNumber;
 
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position;
 - (void)checkEndConditions:(ccTime)dt;
@@ -23,6 +36,7 @@
 
 @synthesize ball;
 @synthesize endLabel;
+@synthesize gameState;
 @synthesize paddle1;
 @synthesize paddle2;
 @synthesize winningPlayerNumber;
@@ -57,9 +71,10 @@
     self.paddle2.position = ccp(self.contentSize.width - self.paddle2.halfWidth - 16.0f, self.halfHeight);
     [self addChild:self.paddle2];
 
-    [self scheduleUpdate];
-
+    self.gameState = GameStatePlaying;
     self.isTouchEnabled = YES;
+
+    [self scheduleUpdate];
   }
 
   return self;
@@ -116,6 +131,7 @@
     self.endLabel.position = self.center;
     [self addChild:self.endLabel];
     [self unscheduleUpdate];
+    self.gameState = GameStateEnd;
   }
 }
 
@@ -123,14 +139,28 @@
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   CGPoint position = [self convertTouchToNodeSpace:touch];
-  [self movePaddleSprite:self.paddle1 toPosition:position];
+
+  switch (self.gameState) {
+    case GameStatePlaying:
+      [self movePaddleSprite:self.paddle1 toPosition:position];
+      break;
+    case GameStateEnd:
+      break;
+  }
 
   return YES;
 }
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
   CGPoint position = [self convertTouchToNodeSpace:touch];
-  [self movePaddleSprite:self.paddle1 toPosition:position];
+
+  switch (self.gameState) {
+    case GameStatePlaying:
+      [self movePaddleSprite:self.paddle1 toPosition:position];
+      break;
+    case GameStateEnd:
+      break;
+  }
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
