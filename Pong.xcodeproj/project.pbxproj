@@ -128,6 +128,7 @@
 		232A418E154333EF00B93679 /* paddle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A418A154333EF00B93679 /* paddle2.png */; };
 		232A420715433D9400B93679 /* ball-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420515433D9400B93679 /* ball-hd.png */; };
 		232A420815433D9400B93679 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420615433D9400B93679 /* ball.png */; };
+		232A420C15433DE800B93679 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A420B15433DE800B93679 /* Ball.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -372,6 +373,8 @@
 		232A418A154333EF00B93679 /* paddle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle2.png; path = Resources/paddle2.png; sourceTree = "<group>"; };
 		232A420515433D9400B93679 /* ball-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ball-hd.png"; path = "Resources/ball-hd.png"; sourceTree = "<group>"; };
 		232A420615433D9400B93679 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = Resources/ball.png; sourceTree = "<group>"; };
+		232A420A15433DE800B93679 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ball.h; path = Models/Ball.h; sourceTree = "<group>"; };
+		232A420B15433DE800B93679 /* Ball.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Ball.m; path = Models/Ball.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +431,7 @@
 		232A402615432C5600B93679 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				232A420915433DC000B93679 /* Models */,
 				232A417815432C5800B93679 /* AppDelegate.h */,
 				232A417915432C5800B93679 /* AppDelegate.m */,
 				232A417B15432C5800B93679 /* RootViewController.h */,
@@ -776,6 +780,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		232A420915433DC000B93679 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				232A420A15433DE800B93679 /* Ball.h */,
+				232A420B15433DE800B93679 /* Ball.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -950,6 +963,7 @@
 				232A417A15432C5800B93679 /* AppDelegate.m in Sources */,
 				232A417D15432C5800B93679 /* RootViewController.m in Sources */,
 				232A418015432C5800B93679 /* HelloWorldLayer.m in Sources */,
+				232A420C15433DE800B93679 /* Ball.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

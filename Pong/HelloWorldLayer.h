@@ -10,13 +10,15 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+@class Ball;
+
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer {
-}
+@interface HelloWorldLayer : CCLayer
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *)scene;
 
+@property (nonatomic, retain) Ball *ball;
 @property (nonatomic, retain) CCSprite *paddle1;
 @property (nonatomic, retain) CCSprite *paddle2;
 

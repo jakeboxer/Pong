@@ -6,6 +6,7 @@
 //  Copyright Jake Boxer 2012. All rights reserved.
 //
 
+#import "Ball.h"
 #import "HelloWorldLayer.h"
 #import "CCTouchDispatcher.h"
 
@@ -17,6 +18,7 @@
 
 @implementation HelloWorldLayer
 
+@synthesize ball;
 @synthesize paddle1;
 @synthesize paddle2;
 
@@ -36,20 +38,16 @@
 	return scene;
 }
 
-- (void)dealloc {
-  [paddle1 release];
-  [paddle2 release];
-
-  // don't forget to call "super dealloc"
-  [super dealloc];
-}
-
 // on "init" you need to initialize your instance
 - (id)init {
   self = [super init];
 
   // Apple recommends to re-assign "self" with the "super" return value
   if(nil != self) {
+    self.ball = [[[Ball alloc] init] autorelease];
+    self.ball.sprite.position = ccp(self.contentSize.width * 0.5f, self.contentSize.height * 0.5f);
+    [self addChild:self.ball.sprite];
+
     self.paddle1 = [CCSprite spriteWithFile:@"paddle1.png"];
     self.paddle1.position = ccp(24.0f, self.contentSize.height * 0.5f);
     [self addChild:self.paddle1];
@@ -64,6 +62,15 @@
   }
 
   return self;
+}
+
+- (void)dealloc {
+  [ball release];
+  [paddle1 release];
+  [paddle2 release];
+
+  // don't forget to call "super dealloc"
+  [super dealloc];
 }
 
 #pragma mark - Scheduled methods
