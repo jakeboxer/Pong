@@ -10,6 +10,8 @@
 
 @interface Ball : NSObject
 
+- (void)flipVelocityX;
+- (void)flipVelocityY;
 - (void)update:(ccTime)dt;
 
 @property (nonatomic, retain) CCSprite *sprite;

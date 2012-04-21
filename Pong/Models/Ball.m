@@ -32,4 +32,14 @@
   self.sprite.position = ccpAdd(self.sprite.position, ccpMult(self.velocity, dt));
 }
 
+#pragma mark - Movement methods
+
+- (void)flipVelocityX {
+  self.velocity = ccp(-self.velocity.x, self.velocity.y);
+}
+
+- (void)flipVelocityY {
+  self.velocity = ccp(self.velocity.x, -self.velocity.y);
+}
+
 @end

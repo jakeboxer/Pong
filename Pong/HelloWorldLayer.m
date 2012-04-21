@@ -9,10 +9,13 @@
 #import "Ball.h"
 #import "HelloWorldLayer.h"
 #import "CCTouchDispatcher.h"
+#import "CCNode+Frame.h"
 
 @interface HelloWorldLayer ()
 
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position;
+- (void)checkEndConditions:(ccTime)dt;
+- (void)updateGameObjects:(ccTime)dt;
 
 @end
 
@@ -45,15 +48,15 @@
   // Apple recommends to re-assign "self" with the "super" return value
   if(nil != self) {
     self.ball = [[[Ball alloc] init] autorelease];
-    self.ball.sprite.position = ccp(self.contentSize.width * 0.5f, self.contentSize.height * 0.5f);
+    self.ball.sprite.position = self.center;
     [self addChild:self.ball.sprite];
 
     self.paddle1 = [CCSprite spriteWithFile:@"paddle1.png"];
-    self.paddle1.position = ccp(24.0f, self.contentSize.height * 0.5f);
+    self.paddle1.position = ccp(self.paddle1.halfWidth + 16.0f, self.halfHeight);
     [self addChild:self.paddle1];
 
     self.paddle2 = [CCSprite spriteWithFile:@"paddle2.png"];
-    self.paddle2.position = ccp(self.contentSize.width - 24.0f, self.contentSize.height * 0.5f);
+    self.paddle2.position = ccp(self.contentSize.width - self.paddle2.halfWidth - 16.0f, self.halfHeight);
     [self addChild:self.paddle2];
 
     [self scheduleUpdate];
@@ -77,10 +80,34 @@
 
 // Runs every frame. Do data update logic here.
 - (void)update:(ccTime)dt {
+  [self updateGameObjects:dt];
+  [self checkEndConditions:dt];
+}
+
+- (void)updateGameObjects:(ccTime)dt {
+  // Check for ball containment
+  if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
+    // Ball collided with a top/bottom wall
+    [self.ball flipVelocityY];
+  }
+
+  // Check for ball collisions.
+  if (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.paddle1.boundingBox) || CGRectIntersectsRect(self.ball.sprite.boundingBox, self.paddle2.boundingBox)) {
+    // Ball collided with a paddle
+    [self.ball flipVelocityX];
+  }
+
   [self.ball update:dt];
 
-  if (self.paddle2.position.y < self.contentSize.height) {
-    self.paddle2.position = ccpAdd(self.paddle2.position, ccp(0, 20.0f * dt));
+  // For debugging purposes, keep paddle 2 in line with ball
+  [self movePaddleSprite:self.paddle2 toPosition:self.ball.sprite.position];
+}
+
+- (void)checkEndConditions:(ccTime)dt {
+  if (self.ball.sprite.rightX >= self.rightX) {
+    // Player 2 loses.
+  } else if (self.ball.sprite.leftX <= self.leftX) {
+    // Player 1 loses.
   }
 }
 
@@ -113,11 +140,11 @@
 
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position {
   // Only use the Y axis of the touch. Don't allow it to go over the boundary.
-  CGFloat verticalMargin = paddleSprite.contentSize.height * 0.5f;
+  CGFloat verticalMargin = paddleSprite.halfHeight;
   CGFloat newY = MAX(verticalMargin, position.y);
   newY = MIN(self.contentSize.height - verticalMargin, newY);
 
-  paddleSprite.position = ccp(self.paddle1.position.x, newY);
+  paddleSprite.position = ccp(paddleSprite.position.x, newY);
 }
 
 @end
