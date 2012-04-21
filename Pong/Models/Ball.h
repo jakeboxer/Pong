@@ -6,10 +6,13 @@
 //  Copyright (c) 2012 Jake Boxer. All rights reserved.
 //
 
-@class CCSprite;
+#import "cocos2d.h"
 
 @interface Ball : NSObject
 
+- (void)update:(ccTime)dt;
+
 @property (nonatomic, retain) CCSprite *sprite;
+@property (nonatomic, assign) CGPoint velocity;
 
 @end

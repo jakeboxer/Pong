@@ -77,6 +77,8 @@
 
 // Runs every frame. Do data update logic here.
 - (void)update:(ccTime)dt {
+  [self.ball update:dt];
+
   if (self.paddle2.position.y < self.contentSize.height) {
     self.paddle2.position = ccpAdd(self.paddle2.position, ccp(0, 20.0f * dt));
   }
@@ -111,8 +113,8 @@
 
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position {
   // Only use the Y axis of the touch. Don't allow it to go over the boundary.
-  float verticalMargin = paddleSprite.contentSize.height * 0.5f;
-  float newY = MAX(verticalMargin, position.y);
+  CGFloat verticalMargin = paddleSprite.contentSize.height * 0.5f;
+  CGFloat newY = MAX(verticalMargin, position.y);
   newY = MIN(self.contentSize.height - verticalMargin, newY);
 
   paddleSprite.position = ccp(self.paddle1.position.x, newY);

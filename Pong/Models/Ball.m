@@ -7,11 +7,11 @@
 //
 
 #import "Ball.h"
-#import "CCSprite.h"
 
 @implementation Ball
 
 @synthesize sprite;
+@synthesize velocity;
 
 #pragma mark - Creation/removal methods
 
@@ -20,9 +20,16 @@
   
   if (nil != self) {
     self.sprite = [CCSprite spriteWithFile:@"ball.png"];
+    self.velocity = ccp(-80.0f, 40.0f);
   }
 
   return self;
+}
+
+#pragma mark - Scheduled methods
+
+- (void)update:(ccTime)dt {
+  self.sprite.position = ccpAdd(self.sprite.position, ccpMult(self.velocity, dt));
 }
 
 @end
