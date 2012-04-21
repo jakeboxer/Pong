@@ -126,6 +126,8 @@
 		232A418C154333EF00B93679 /* paddle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A4188154333EF00B93679 /* paddle1.png */; };
 		232A418D154333EF00B93679 /* paddle2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A4189154333EF00B93679 /* paddle2-hd.png */; };
 		232A418E154333EF00B93679 /* paddle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A418A154333EF00B93679 /* paddle2.png */; };
+		232A420715433D9400B93679 /* ball-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420515433D9400B93679 /* ball-hd.png */; };
+		232A420815433D9400B93679 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420615433D9400B93679 /* ball.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -368,6 +370,8 @@
 		232A4188154333EF00B93679 /* paddle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle1.png; path = Resources/paddle1.png; sourceTree = "<group>"; };
 		232A4189154333EF00B93679 /* paddle2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "paddle2-hd.png"; path = "Resources/paddle2-hd.png"; sourceTree = "<group>"; };
 		232A418A154333EF00B93679 /* paddle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle2.png; path = Resources/paddle2.png; sourceTree = "<group>"; };
+		232A420515433D9400B93679 /* ball-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ball-hd.png"; path = "Resources/ball-hd.png"; sourceTree = "<group>"; };
+		232A420615433D9400B93679 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = Resources/ball.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -441,6 +445,8 @@
 		232A402715432C5600B93679 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				232A420515433D9400B93679 /* ball-hd.png */,
+				232A420615433D9400B93679 /* ball.png */,
 				232A4187154333EF00B93679 /* paddle1-hd.png */,
 				232A4188154333EF00B93679 /* paddle1.png */,
 				232A4189154333EF00B93679 /* paddle2-hd.png */,
@@ -834,6 +840,8 @@
 				232A418C154333EF00B93679 /* paddle1.png in Resources */,
 				232A418D154333EF00B93679 /* paddle2-hd.png in Resources */,
 				232A418E154333EF00B93679 /* paddle2.png in Resources */,
+				232A420715433D9400B93679 /* ball-hd.png in Resources */,
+				232A420815433D9400B93679 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
