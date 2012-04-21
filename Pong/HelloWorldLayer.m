@@ -79,10 +79,14 @@
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   CGPoint position = [self convertTouchToNodeSpace:touch];
-
   [self movePaddleSprite:self.paddle1 toPosition:position];
 
   return YES;
+}
+
+- (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+  CGPoint position = [self convertTouchToNodeSpace:touch];
+  [self movePaddleSprite:self.paddle1 toPosition:position];
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -99,8 +103,12 @@
 #pragma mark - Sprite logic methods
 
 - (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position {
-  // Only use the Y axis of the touch
-  paddleSprite.position = ccp(self.paddle1.position.x, position.y);
+  // Only use the Y axis of the touch. Don't allow it to go over the boundary.
+  float verticalMargin = paddleSprite.contentSize.height * 0.5f;
+  float newY = MAX(verticalMargin, position.y);
+  newY = MIN(self.contentSize.height - verticalMargin, newY);
+
+  paddleSprite.position = ccp(self.paddle1.position.x, newY);
 }
 
 @end
