@@ -6,15 +6,21 @@
 //  Copyright Jake Boxer 2012. All rights reserved.
 //
 
-
-// Import the interfaces
 #import "HelloWorldLayer.h"
+#import "CCTouchDispatcher.h"
 
-// HelloWorldLayer implementation
+@interface HelloWorldLayer ()
+
+- (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position;
+
+@end
+
 @implementation HelloWorldLayer
 
 @synthesize paddle1;
 @synthesize paddle2;
+
+#pragma mark - Creation/removal methods
 
 + (CCScene *)scene {
 	// 'scene' is an autorelease object.
@@ -28,6 +34,14 @@
 
 	// return the scene
 	return scene;
+}
+
+- (void)dealloc {
+  [paddle1 release];
+  [paddle2 release];
+
+  // don't forget to call "super dealloc"
+  [super dealloc];
 }
 
 // on "init" you need to initialize your instance
@@ -45,28 +59,48 @@
     [self addChild:self.paddle2];
 
     [self scheduleUpdate];
+
+    self.isTouchEnabled = YES;
   }
 
   return self;
 }
 
-- (void)update:(ccTime)dt {
-  if (self.paddle1.position.y > 0) {
-    self.paddle1.position = ccpSub(self.paddle1.position, ccp(0, 20.0f * dt));
-  }
+#pragma mark - Scheduled methods
 
+// Runs every frame. Do data update logic here.
+- (void)update:(ccTime)dt {
   if (self.paddle2.position.y < self.contentSize.height) {
     self.paddle2.position = ccpAdd(self.paddle2.position, ccp(0, 20.0f * dt));
   }
 }
 
-// on "dealloc" you need to release all your retained objects
-- (void)dealloc {
-  [paddle1 release];
-  [paddle2 release];
+#pragma mark - Touch methods
 
-	// don't forget to call "super dealloc"
-	[super dealloc];
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  CGPoint position = [self convertTouchToNodeSpace:touch];
+
+  [self movePaddleSprite:self.paddle1 toPosition:position];
+
+  return YES;
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+  // Do nothing.
+}
+
+- (void)registerWithTouchDispatcher {
+  // Tell the layer that we want targeted touch events instead of regular ones.
+  [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self
+                                                   priority:0
+                                            swallowsTouches:YES];
+}
+
+#pragma mark - Sprite logic methods
+
+- (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position {
+  // Only use the Y axis of the touch
+  paddleSprite.position = ccp(self.paddle1.position.x, position.y);
 }
 
 @end
