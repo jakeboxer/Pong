@@ -11,11 +11,10 @@
 #import "cocos2d.h"
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer
-{
+@interface HelloWorldLayer : CCLayer {
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++ (CCScene *)scene;
 
 @end

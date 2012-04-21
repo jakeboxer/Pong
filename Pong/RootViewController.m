@@ -59,7 +59,7 @@
 	// Since this method should return YES in at least 1 orientation,
 	// we return YES only in the Portrait orientation
 	//
-	return ( interfaceOrientation == UIInterfaceOrientationPortrait );
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 
 #elif GAME_AUTOROTATION==kGameAutorotationCCDirector
 	//
@@ -67,15 +67,15 @@
 	//
 	// Sample: Autorotate only in landscape mode
 	//
-	if( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) {
-		[[CCDirector sharedDirector] setDeviceOrientation: kCCDeviceOrientationLandscapeRight];
-	} else if( interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-		[[CCDirector sharedDirector] setDeviceOrientation: kCCDeviceOrientationLandscapeLeft];
+	if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+		[[CCDirector sharedDirector] setDeviceOrientation:kCCDeviceOrientationLandscapeRight];
+	} else if(interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+		[[CCDirector sharedDirector] setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
 	}
 
 	// Since this method should return YES in at least 1 orientation,
 	// we return YES only in the Portrait orientation
-	return ( interfaceOrientation == UIInterfaceOrientationPortrait );
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 
 #elif GAME_AUTOROTATION == kGameAutorotationUIViewController
 	//
@@ -101,8 +101,7 @@
 // This callback only will be called when GAME_AUTOROTATION == kGameAutorotationUIViewController
 //
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	//
 	// Assuming that the main window has the size of the screen
 	// BUG: This won't work if the EAGLView is not fullscreen
@@ -111,17 +110,17 @@
 	CGRect rect = CGRectZero;
 
 
-	if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+	if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		rect = screenRect;
-
-	else if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-		rect.size = CGSizeMake( screenRect.size.height, screenRect.size.width );
+  } else if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+		rect.size = CGSizeMake(screenRect.size.height, screenRect.size.width);
+  }
 
 	CCDirector *director = [CCDirector sharedDirector];
 	EAGLView *glView = [director openGLView];
 	float contentScaleFactor = [director contentScaleFactor];
 
-	if( contentScaleFactor != 1 ) {
+	if(contentScaleFactor != 1) {
 		rect.size.width *= contentScaleFactor;
 		rect.size.height *= contentScaleFactor;
 	}
