@@ -8,10 +8,18 @@
 
 #import "Ball.h"
 
+@interface Ball ()
+
+- (CGFloat)xOffsetOverTime:(ccTime)dt;
+- (CGFloat)yOffsetOverTime:(ccTime)dt;
+
+@end
+
 @implementation Ball
 
+@synthesize angleInRadians;
+@synthesize speed;
 @synthesize sprite;
-@synthesize velocity;
 
 #pragma mark - Creation/removal methods
 
@@ -19,6 +27,7 @@
   self = [super init];
   
   if (nil != self) {
+    self.speed = 5.0f;
     self.sprite = [CCSprite spriteWithFile:@"ball.png"];
   }
 
@@ -28,17 +37,17 @@
 #pragma mark - Scheduled methods
 
 - (void)update:(ccTime)dt {
-  self.sprite.position = ccpAdd(self.sprite.position, ccpMult(self.velocity, dt));
+  self.sprite.position = ccpAdd(self.sprite.position, ccp([self xOffsetOverTime:dt], [self yOffsetOverTime:dt]));
 }
 
 #pragma mark - Movement methods
 
-- (void)flipVelocityX {
-  self.velocity = ccp(-self.velocity.x, self.velocity.y);
+- (CGFloat)xOffsetOverTime:(ccTime)dt {
+  return cosf(self.angleInRadians) * self.speed;
 }
 
-- (void)flipVelocityY {
-  self.velocity = ccp(self.velocity.x, -self.velocity.y);
+- (CGFloat)yOffsetOverTime:(ccTime)dt {
+  return sinf(self.angleInRadians) * self.speed;
 }
 
 @end

@@ -10,11 +10,10 @@
 
 @interface Ball : NSObject
 
-- (void)flipVelocityX;
-- (void)flipVelocityY;
 - (void)update:(ccTime)dt;
 
 @property (nonatomic, retain) CCSprite *sprite;
-@property (nonatomic, assign) CGPoint velocity;
+@property (nonatomic, assign) CGFloat angleInRadians;
+@property (nonatomic, assign) CGFloat speed;
 
 @end

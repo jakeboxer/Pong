@@ -66,11 +66,9 @@ static NSInteger const kWinningScore = 5;
 	return scene;
 }
 
-// on "init" you need to initialize your instance
 - (id)init {
   self = [super init];
 
-  // Apple recommends to re-assign "self" with the "super" return value
   if(nil != self) {
     CCLabelTTF *scoreLabel1 = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:24.0f];
     scoreLabel1.position = ccp(50.0f, self.contentSize.height - 50.0f);
@@ -113,7 +111,6 @@ static NSInteger const kWinningScore = 5;
   [player2 release];
   [scoreLabels release];
 
-  // don't forget to call "super dealloc"
   [super dealloc];
 }
 
@@ -127,20 +124,20 @@ static NSInteger const kWinningScore = 5;
 
 - (void)updateGameObjects:(ccTime)dt {
   // Check for ball containment
-  if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
-    if ((self.ball.sprite.topY    >= self.contentSize.height && self.ball.velocity.y >= 0) ||
-        (self.ball.sprite.bottomY <= 0                       && self.ball.velocity.y <= 0)) {
-      // Ball collided with a top/bottom wall and is moving in that wall's direction.
-      [self.ball flipVelocityY];
-    }
-  }
-
-  // Check for ball collisions.
-  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && self.ball.velocity.x <= 0) ||
-      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && self.ball.velocity.x >= 0)) {
-    // Ball collided with a paddle and is moving in the paddle's direction.
-    [self.ball flipVelocityX];
-  }
+//  if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
+//    if ((self.ball.sprite.topY    >= self.contentSize.height && self.ball.velocity.y >= 0) ||
+//        (self.ball.sprite.bottomY <= 0                       && self.ball.velocity.y <= 0)) {
+//      // Ball collided with a top/bottom wall and is moving in that wall's direction.
+//      [self.ball flipVelocityY];
+//    }
+//  }
+//
+//  // Check for ball collisions.
+//  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && self.ball.velocity.x <= 0) ||
+//      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && self.ball.velocity.x >= 0)) {
+//    // Ball collided with a paddle and is moving in the paddle's direction.
+//    [self.ball flipVelocityX];
+//  }
 
   [self.ball update:dt];
 
@@ -246,7 +243,7 @@ static NSInteger const kWinningScore = 5;
 
 - (void)resetGameState {
   self.ball.sprite.position = self.center;
-  self.ball.velocity = ccp(-160.0f, 80.0f);
+  self.ball.angleInRadians = 5.0f * M_PI / 6.0f;
 
   self.player1.sprite.position = ccp(self.player1.sprite.halfWidth + 16.0f, self.halfHeight);
   self.player2.sprite.position = ccp(self.contentSize.width - self.player2.sprite.halfWidth - 16.0f, self.halfHeight);
