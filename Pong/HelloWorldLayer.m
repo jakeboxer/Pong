@@ -124,20 +124,20 @@ static NSInteger const kWinningScore = 5;
 
 - (void)updateGameObjects:(ccTime)dt {
   // Check for ball containment
-//  if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
+  if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
 //    if ((self.ball.sprite.topY    >= self.contentSize.height && self.ball.velocity.y >= 0) ||
 //        (self.ball.sprite.bottomY <= 0                       && self.ball.velocity.y <= 0)) {
 //      // Ball collided with a top/bottom wall and is moving in that wall's direction.
 //      [self.ball flipVelocityY];
 //    }
-//  }
-//
-//  // Check for ball collisions.
-//  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && self.ball.velocity.x <= 0) ||
-//      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && self.ball.velocity.x >= 0)) {
-//    // Ball collided with a paddle and is moving in the paddle's direction.
-//    [self.ball flipVelocityX];
-//  }
+  }
+
+  // Check for ball collisions.
+  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && [self.ball isMovingLeft]) ||
+      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && [self.ball isMovingRight])) {
+    // Ball collided with a paddle and is moving in the paddle's direction.
+    [self.ball flipAngleHorizontally];
+  }
 
   [self.ball update:dt];
 

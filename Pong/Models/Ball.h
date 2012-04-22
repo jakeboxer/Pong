@@ -11,6 +11,9 @@
 @interface Ball : NSObject
 
 - (void)update:(ccTime)dt;
+- (void)flipAngleHorizontally;
+- (BOOL)isMovingLeft;
+- (BOOL)isMovingRight;
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, assign) CGFloat angleInRadians;
