@@ -8,12 +8,14 @@
 
 #import "Ball.h"
 #import "HelloWorldLayer.h"
+#import "Player.h"
+
 #import "CCTouchDispatcher.h"
 #import "CCNode+Frame.h"
 
 enum GameState {
   GameStatePlaying,
-  GameStateEnd,
+  GameStatePaused,
   GameStateNone
 };
 typedef enum GameState GameState;
@@ -21,31 +23,36 @@ typedef enum GameState GameState;
 @interface HelloWorldLayer ()
 
 @property (nonatomic, retain) Ball *ball;
-@property (nonatomic, retain) CCSprite *paddle1;
-@property (nonatomic, retain) CCSprite *paddle2;
+@property (nonatomic, retain) Player *player1;
+@property (nonatomic, retain) Player *player2;
 @property (nonatomic, retain) CCLabelTTF *endLabel;
 @property (nonatomic, assign) GameState gameState;
 @property (nonatomic, assign) GameState gameStateWhereTouchBegan;
-@property (nonatomic, assign) NSInteger winningPlayerNumber;
+@property (nonatomic, retain) NSDictionary *scoreLabels;
+@property (nonatomic, readonly) Player *winningPlayer;
 
-- (void)endGame;
 - (void)startGame;
-- (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position;
+- (void)pauseGame;
+- (void)movePlayerSprite:(CCSprite *)playerSprite toPosition:(CGPoint)position;
 - (void)checkEndConditions:(ccTime)dt;
 - (void)resetGameState;
+- (void)resetScores;
+- (void)updateScoreLabelForPlayer:(Player *)player;
 - (void)updateGameObjects:(ccTime)dt;
 
 @end
 
 @implementation HelloWorldLayer
 
+static NSInteger const kWinningScore = 5;
+
 @synthesize ball;
 @synthesize endLabel;
 @synthesize gameState;
 @synthesize gameStateWhereTouchBegan;
-@synthesize paddle1;
-@synthesize paddle2;
-@synthesize winningPlayerNumber;
+@synthesize player1;
+@synthesize player2;
+@synthesize scoreLabels;
 
 #pragma mark - Creation/removal methods
 
@@ -65,15 +72,29 @@ typedef enum GameState GameState;
 
   // Apple recommends to re-assign "self" with the "super" return value
   if(nil != self) {
+    CCLabelTTF *scoreLabel1 = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:24.0f];
+    scoreLabel1.position = ccp(50.0f, self.contentSize.height - 50.0f);
+    [self addChild:scoreLabel1];
+
+    CCLabelTTF *scoreLabel2 = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:24.0f];
+    scoreLabel2.position = ccp(self.contentSize.width - 50.0f, self.contentSize.height - 50.0f);
+    [self addChild:scoreLabel2];
+
+    self.scoreLabels = [NSDictionary dictionaryWithObjectsAndKeys:
+                        scoreLabel1, [NSNumber numberWithInteger:1],
+                        scoreLabel2, [NSNumber numberWithInteger:2],
+                        nil];
+
     self.ball = [[[Ball alloc] init] autorelease];
     [self addChild:self.ball.sprite];
 
-    self.paddle1 = [CCSprite spriteWithFile:@"paddle1.png"];
-    [self addChild:self.paddle1];
+    self.player1 = [[[Player alloc] initWithPlayerNumber:1] autorelease];
+    [self addChild:self.player1.sprite];
 
-    self.paddle2 = [CCSprite spriteWithFile:@"paddle2.png"];
-    [self addChild:self.paddle2];
+    self.player2 = [[[Player alloc] initWithPlayerNumber:2] autorelease];
+    [self addChild:self.player2.sprite];
 
+    [self resetScores];
     [self resetGameState];
 
     self.isTouchEnabled = YES;
@@ -88,8 +109,9 @@ typedef enum GameState GameState;
 - (void)dealloc {
   [ball release];
   [endLabel release];
-  [paddle1 release];
-  [paddle2 release];
+  [player1 release];
+  [player2 release];
+  [scoreLabels release];
 
   // don't forget to call "super dealloc"
   [super dealloc];
@@ -114,8 +136,8 @@ typedef enum GameState GameState;
   }
 
   // Check for ball collisions.
-  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.paddle1.boundingBox) && self.ball.velocity.x <= 0) ||
-      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.paddle2.boundingBox) && self.ball.velocity.x >= 0)) {
+  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && self.ball.velocity.x <= 0) ||
+      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && self.ball.velocity.x >= 0)) {
     // Ball collided with a paddle and is moving in the paddle's direction.
     [self.ball flipVelocityX];
   }
@@ -123,24 +145,33 @@ typedef enum GameState GameState;
   [self.ball update:dt];
 
   // For debugging purposes, keep paddle 2 in line with ball
-  [self movePaddleSprite:self.paddle2 toPosition:self.ball.sprite.position];
+  [self movePlayerSprite:self.player2.sprite toPosition:self.ball.sprite.position];
 }
 
 - (void)checkEndConditions:(ccTime)dt {
+  Player *scoringPlayer = nil;
+
   if (self.ball.sprite.rightX >= self.contentSize.width) {
-    self.winningPlayerNumber = 1;
+    self.player1.score++;
+    scoringPlayer = self.player1;
   } else if (self.ball.sprite.leftX <= 0) {
-    self.winningPlayerNumber = 2;
+    self.player2.score++;
+    scoringPlayer = self.player2;
   }
 
-  if (self.winningPlayerNumber > 0) {
-    self.endLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Player %d wins!", self.winningPlayerNumber]
-                                       fontName:@"Helvetica"
-                                       fontSize:24.0f];
-    self.endLabel.position = self.center;
-    [self addChild:self.endLabel];
+  if (scoringPlayer != nil) {
+    [self updateScoreLabelForPlayer:scoringPlayer];
 
-    [self endGame];
+    if (self.winningPlayer == scoringPlayer) {
+      // Scoring player won.
+      self.endLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Player %d wins!", scoringPlayer.playerNumber]
+                                         fontName:@"Helvetica"
+                                         fontSize:24.0f];
+      self.endLabel.position = self.center;
+      [self addChild:self.endLabel];
+    }
+
+    [self pauseGame];
   }
 }
 
@@ -152,7 +183,7 @@ typedef enum GameState GameState;
 
   switch (self.gameState) {
     case GameStatePlaying:
-      [self movePaddleSprite:self.paddle1 toPosition:position];
+      [self movePlayerSprite:self.player1.sprite toPosition:position];
       break;
     default:
       break;
@@ -166,7 +197,7 @@ typedef enum GameState GameState;
 
   switch (self.gameState) {
     case GameStatePlaying:
-      [self movePaddleSprite:self.paddle1 toPosition:position];
+      [self movePlayerSprite:self.player1.sprite toPosition:position];
       break;
     default:
       break;
@@ -175,10 +206,14 @@ typedef enum GameState GameState;
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   switch (self.gameState) {
-    case GameStateEnd:
-      if (GameStateEnd == self.gameStateWhereTouchBegan) {
-        [self.endLabel removeFromParentAndCleanup:YES];
-        self.endLabel = nil;
+    case GameStatePaused:
+      if (GameStatePaused == self.gameStateWhereTouchBegan) {
+        if (nil != self.winningPlayer) {
+          // There is a winner, so start the game over.
+          [self.endLabel removeFromParentAndCleanup:YES];
+          self.endLabel = nil;
+          [self resetScores];
+        }
 
         [self resetGameState];
         [self startGame];
@@ -199,8 +234,8 @@ typedef enum GameState GameState;
 
 #pragma mark - Game state methods
 
-- (void)endGame {
-  self.gameState = GameStateEnd;
+- (void)pauseGame {
+  self.gameState = GameStatePaused;
   [[CCDirector sharedDirector] pause];
 }
 
@@ -210,25 +245,46 @@ typedef enum GameState GameState;
 }
 
 - (void)resetGameState {
-  // No one has won yet
-  self.winningPlayerNumber = 0;
-
   self.ball.sprite.position = self.center;
   self.ball.velocity = ccp(-160.0f, 80.0f);
 
-  self.paddle1.position = ccp(self.paddle1.halfWidth + 16.0f, self.halfHeight);
-  self.paddle2.position = ccp(self.contentSize.width - self.paddle2.halfWidth - 16.0f, self.halfHeight);
+  self.player1.sprite.position = ccp(self.player1.sprite.halfWidth + 16.0f, self.halfHeight);
+  self.player2.sprite.position = ccp(self.contentSize.width - self.player2.sprite.halfWidth - 16.0f, self.halfHeight);
+}
+
+- (void)resetScores {
+  self.player1.score = 0;
+  self.player2.score = 0;
+  [self updateScoreLabelForPlayer:self.player1];
+  [self updateScoreLabelForPlayer:self.player2];
+}
+
+- (void)updateScoreLabelForPlayer:(Player *)player {
+  CCLabelTTF *scoringPlayerLabel = (CCLabelTTF *)[scoreLabels objectForKey:[NSNumber numberWithInteger:player.playerNumber]];
+  [scoringPlayerLabel setString:[NSString stringWithFormat:@"%d", player.score]];
+}
+
+- (Player *)winningPlayer {
+  Player *player = nil;
+
+  if (self.player1.score >= kWinningScore) {
+    player = self.player1;
+  } else if (self.player2.score >= kWinningScore) {
+    player = self.player2;
+  }
+
+  return player;
 }
 
 #pragma mark - Sprite logic methods
 
-- (void)movePaddleSprite:(CCSprite *)paddleSprite toPosition:(CGPoint)position {
+- (void)movePlayerSprite:(CCSprite *)playerSprite toPosition:(CGPoint)position {
   // Only use the Y axis of the touch. Don't allow it to go over the boundary.
-  CGFloat verticalMargin = paddleSprite.halfHeight;
+  CGFloat verticalMargin = playerSprite.halfHeight;
   CGFloat newY = MAX(verticalMargin, position.y);
   newY = MIN(self.contentSize.height - verticalMargin, newY);
 
-  paddleSprite.position = ccp(paddleSprite.position.x, newY);
+  playerSprite.position = ccp(playerSprite.position.x, newY);
 }
 
 @end

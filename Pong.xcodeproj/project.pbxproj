@@ -130,6 +130,7 @@
 		232A420815433D9400B93679 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 232A420615433D9400B93679 /* ball.png */; };
 		232A420C15433DE800B93679 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A420B15433DE800B93679 /* Ball.m */; };
 		232A4210154345C300B93679 /* CCNode+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A420F154345C300B93679 /* CCNode+Frame.m */; };
+		23C4109115447F0F00640A21 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 23C4109015447F0F00640A21 /* Player.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -378,6 +379,8 @@
 		232A420B15433DE800B93679 /* Ball.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Ball.m; path = Models/Ball.m; sourceTree = "<group>"; };
 		232A420E154345C300B93679 /* CCNode+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CCNode+Frame.h"; path = "Categories/CCNode+Frame.h"; sourceTree = "<group>"; };
 		232A420F154345C300B93679 /* CCNode+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CCNode+Frame.m"; path = "Categories/CCNode+Frame.m"; sourceTree = "<group>"; };
+		23C4108F15447F0F00640A21 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Models/Player.h; sourceTree = "<group>"; };
+		23C4109015447F0F00640A21 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Models/Player.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -789,6 +792,8 @@
 			children = (
 				232A420A15433DE800B93679 /* Ball.h */,
 				232A420B15433DE800B93679 /* Ball.m */,
+				23C4108F15447F0F00640A21 /* Player.h */,
+				23C4109015447F0F00640A21 /* Player.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -978,6 +983,7 @@
 				232A418015432C5800B93679 /* HelloWorldLayer.m in Sources */,
 				232A420C15433DE800B93679 /* Ball.m in Sources */,
 				232A4210154345C300B93679 /* CCNode+Frame.m in Sources */,
+				23C4109115447F0F00640A21 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1071,6 +1077,7 @@
 				232A418615432C5800B93679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
