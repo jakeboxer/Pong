@@ -10,11 +10,17 @@
 
 @interface Ball : NSObject
 
-- (void)flipVelocityX;
-- (void)flipVelocityY;
 - (void)update:(ccTime)dt;
+- (void)flipAngleHorizontally;
+- (void)flipAngleVertically;
+- (void)updateAngleAfterHittingPaddleAtPercentageFromCenter:(CGFloat)percentage;
+- (BOOL)isMovingLeft;
+- (BOOL)isMovingRight;
+- (BOOL)isMovingUp;
+- (BOOL)isMovingDown;
 
 @property (nonatomic, retain) CCSprite *sprite;
-@property (nonatomic, assign) CGPoint velocity;
+@property (nonatomic, assign) CGFloat angleInRadians;
+@property (nonatomic, assign) CGFloat speed;
 
 @end
