@@ -43,7 +43,17 @@
 #pragma mark - Movement methods
 
 - (void)flipAngleHorizontally {
-  self.angleInRadians = fabsf(self.angleInRadians - M_PI);
+  if (self.angleInRadians > M_PI) {
+    self.angleInRadians = (3.0f * M_PI) - self.angleInRadians;
+  } else {
+    self.angleInRadians = M_PI - self.angleInRadians;
+  }
+}
+
+- (void)flipAngleVertically {
+  if (self.angleInRadians > 0.0f) {
+    self.angleInRadians = (2.0f * M_PI) - self.angleInRadians;
+  }
 }
 
 - (BOOL)isMovingLeft {
@@ -52,6 +62,14 @@
 
 - (BOOL)isMovingRight {
   return ![self isMovingLeft];
+}
+
+- (BOOL)isMovingUp {
+  return self.angleInRadians >= 0 && self.angleInRadians <= M_PI;
+}
+
+- (BOOL)isMovingDown {
+  return ![self isMovingUp];
 }
 
 - (CGFloat)xOffsetOverTime:(ccTime)dt {

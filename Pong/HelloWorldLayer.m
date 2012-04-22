@@ -125,11 +125,11 @@ static NSInteger const kWinningScore = 5;
 - (void)updateGameObjects:(ccTime)dt {
   // Check for ball containment
   if (!CGRectContainsRect(self.boundingBox, self.ball.sprite.boundingBox)) {
-//    if ((self.ball.sprite.topY    >= self.contentSize.height && self.ball.velocity.y >= 0) ||
-//        (self.ball.sprite.bottomY <= 0                       && self.ball.velocity.y <= 0)) {
-//      // Ball collided with a top/bottom wall and is moving in that wall's direction.
-//      [self.ball flipVelocityY];
-//    }
+    if ((self.ball.sprite.topY    >= self.contentSize.height && [self.ball isMovingUp]) ||
+        (self.ball.sprite.bottomY <= 0                       && [self.ball isMovingDown])) {
+      // Ball collided with a top/bottom wall and is moving in that wall's direction.
+      [self.ball flipAngleVertically];
+    }
   }
 
   // Check for ball collisions.

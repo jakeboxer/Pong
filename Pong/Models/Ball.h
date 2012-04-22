@@ -12,8 +12,11 @@
 
 - (void)update:(ccTime)dt;
 - (void)flipAngleHorizontally;
+- (void)flipAngleVertically;
 - (BOOL)isMovingLeft;
 - (BOOL)isMovingRight;
+- (BOOL)isMovingUp;
+- (BOOL)isMovingDown;
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, assign) CGFloat angleInRadians;
