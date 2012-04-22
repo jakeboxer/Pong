@@ -133,10 +133,18 @@ static NSInteger const kWinningScore = 5;
   }
 
   // Check for ball collisions.
-  if ((CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && [self.ball isMovingLeft]) ||
-      (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && [self.ball isMovingRight])) {
+  Player *collidingPlayer = nil;
+
+  if (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player1.sprite.boundingBox) && [self.ball isMovingLeft]) {
+    collidingPlayer = self.player1;
+  } else if (CGRectIntersectsRect(self.ball.sprite.boundingBox, self.player2.sprite.boundingBox) && [self.ball isMovingRight]) {
+    collidingPlayer = self.player2;
+  }
+
+  if (nil != collidingPlayer) {
     // Ball collided with a paddle and is moving in the paddle's direction.
-    [self.ball flipAngleHorizontally];
+    CGFloat percentageFromCenter = (self.ball.sprite.position.y - collidingPlayer.sprite.position.y) / collidingPlayer.sprite.contentSize.height;
+    [self.ball updateAngleAfterHittingPaddleAtPercentageFromCenter:percentageFromCenter];
   }
 
   [self.ball update:dt];

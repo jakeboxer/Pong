@@ -13,6 +13,7 @@
 - (void)update:(ccTime)dt;
 - (void)flipAngleHorizontally;
 - (void)flipAngleVertically;
+- (void)updateAngleAfterHittingPaddleAtPercentageFromCenter:(CGFloat)percentage;
 - (BOOL)isMovingLeft;
 - (BOOL)isMovingRight;
 - (BOOL)isMovingUp;
